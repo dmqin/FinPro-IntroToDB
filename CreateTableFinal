@@ -23,8 +23,8 @@ CREATE DATABASE FuniMaZion
 		CustomerCityID CHAR(5) NOT NULL FOREIGN KEY REFERENCES MsCity(CityID) ON UPDATE CASCADE ON DELETE CASCADE,
 		CustomerGender varchar (10) NOT NULL CHECK (CustomerGender IN ('Male','Female')),
 		CustomerDOB DATE NOT NULL ,
-		CustomerEmail varchar(100) CHECK (CustomerEmail LIKE '%@gmail.com'), 
-		CustomerPassword varchar(50) CHECK (LEN(CustomerPassword)>7)
+		CustomerEmail varchar(100) NOT NULL CHECK (CustomerEmail LIKE '%@gmail.com'), 
+		CustomerPassword varchar(50) NOT NULL CHECK (LEN(CustomerPassword)>7)
 
  )
 
@@ -80,7 +80,7 @@ CREATE TABLE SalesHeader(
 
 	SalesID CHAR(5)PRIMARY KEY CHECK (SalesID LIKE 'SA [0-9][0-9][0-9]'),
 	CustomerID CHAR (5) FOREIGN KEY REFERENCES MsCustomer(CustomerID),
-	SalesDate DATE,
+	SalesDate DATE NOT NULL,
 	SalesMethod VARCHAR(6) CHECK (SalesMethod IN ('Credit', 'Debit')
 
 ))
@@ -90,7 +90,7 @@ CREATE TABLE SalesDetail(
 
 SalesID CHAR(5) PRIMARY KEY FOREIGN KEY REFERENCES SalesHeader(SalesID),
 AnimeID CHAR(5) FOREIGN KEY REFERENCES MsAnime(AnimeID),
-Duration INT
+Duration INT NOT NULL
 
 )
 
