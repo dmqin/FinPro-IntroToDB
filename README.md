@@ -4,6 +4,8 @@ FuniMaZion is a hot and trending web platform to watch many animes where the use
 <br>
 
 This project was created to fulfill the requirements of "Introduction to Database System" course.
+<br>
+<br>
 Team Member :
 1. ATILA ALFAYATHAR NABIL FATHIN (2602102851)
 2. DESTA IMAM MUTTAQIN (2602134310)
