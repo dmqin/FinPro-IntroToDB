@@ -1,5 +1,12 @@
 
+ CREATE DATABASE FuniMaZion
  use FuniMaZion
+
+  CREATE TABLE MsCity (
+		CityID char(5) PRIMARY KEY CHECK (CityID LIKE 'CI[0-9][0-9][0-9]'),
+		CityName varchar(20)
+ )
+
  CREATE TABLE MsStaff(
 		StaffID char(5) PRIMARY KEY CHECK (StaffID LIKE 'SF[0-9][0-9][0-9]' ),
 		StaffName varchar(100) NOT NULL,
@@ -23,16 +30,6 @@
  )
 
 
- CREATE TABLE MsCity (
-		CityID char(5) PRIMARY KEY CHECK (CityID LIKE 'CI[0-9][0-9][0-9]'),
-		CityName varchar(20)
- 
- 
- )
-
-
- 
-
 
  CREATE TABLE MsStudio(
 		StudioID CHAR(5) PRIMARY KEY CHECK (StudioID LIKE 'SD[0-9][0-9][0-9]'),
@@ -48,7 +45,7 @@
  )
 
 
-SELECT * FROM MsAnime
+
 
 CREATE TABLE MsAnime (
 		AnimeID char(5) PRIMARY KEY CHECK (AnimeID LIKE 'AN[0-9][0-9][0-9]'),
@@ -57,20 +54,44 @@ CREATE TABLE MsAnime (
 		AnimePrice float(10) NOT NULL, 
 		AnimeDescription varchar(200) NOT NULL,
 		MinimumAge int CHECK  (MinimumAge >= 0 AND MinimumAge <= 25) NOT NULL
+		)
 
+CREATE TABLE PurchaseHeader (
+		PurchaseID CHAR(5) PRIMARY KEY CHECK (PurchaseID LIKE 'PU[0-9][0-9][0-9]'),
+		
+		StaffId CHAR (5) FOREIGN KEY REFERENCES MsStaff(StaffID),
+		StudioID CHAR (5) FOREIGN KEY REFERENCES MsStudio (StudioID),
+		PurchaseDate DATE NOT NULL
+		
+	
 
 )
 
-SELECT * FROM MsAnime
-INSERT INTO MsAnime VALUES ('AN001','Naruto Shipudden','GE007',52.5,'The story about a young ninja named Naruto who seeks recognition from his peers and dreams of becoming the Hokage, the leader of his village.', 10) ,
-                            ('AN002','HunterXHunter','GE006',82.75,'Gon is a kid who want to become a hunter. To achieve that goal he has to completing some challange to get the certified Hunter license. The adventure start from here!', 5),
-							 ('AN003','Sinchan','GE008',7.2,'Funny kid', 2) ,
-							  ('AN004','Purple Hyacinth','GE010',105.37,'An Detetctive that worked as ann officer who can detect a lie that team up with a deadly asassin who known as Purple Hyacinth', 18) ,
-							   ('AN005','Kuroko No Basket','GE005',27.5,'Basketball', 10),
-							    ('AN006','Titanic','GE003',18.20,'A love story that ended up in the pacific ocean', 18),
-							     ('AN007','The Wizard of Oz','GE002',45,'All around you is just a fantasy !', 12),
-							      ('AN008','Ghost Busters','GE009',31.2,'3 college students that also worked as a ghost hunter in the midnight', 17),
-								   ('AN009','SpyXFamily','GE004',97,'Twilight is tasked with spying on  leader of the National Unity Party within Ostania by enroll a child in the same private school and pose as a fellow parent.', 10),
-								    ('AN010','Neigbours','GE001',47.5,'2 Family who live in next door that always make some conflicts. However, they are a kind to each other. Are they?', 10)
 
+CREATE TABLE PurchaseDetail(
+	PurchaseID CHAR(5)  FOREIGN KEY REFERENCES PurchaseHeader(PurchaseID),
+	AnimeID CHAR(5) FOREIGN KEY REFERENCES MsAnime(AnimeID)
+)
+
+
+CREATE TABLE SalesHeader(
+
+	SalesID CHAR(5)PRIMARY KEY CHECK (SalesID LIKE 'SA[0-9][0-9][0-9]'),
+	CustomerID CHAR (5) FOREIGN KEY REFERENCES MsCustomer(CustomerID),
+	SalesDate DATE NOT NULL,
+	SalesMethod VARCHAR(6) CHECK (SalesMethod IN ('Credit', 'Debit')) NOT NULL
+	
+	
+	)
+
+
+CREATE TABLE SalesDetail(
+
+SalesID CHAR(5) FOREIGN KEY REFERENCES SalesHeader(SalesID),
+AnimeID CHAR(5) FOREIGN KEY REFERENCES MsAnime(AnimeID),
+Duration INT NOT NULL
+)
+
+BEGIN TRAN
+ROLLBACK
 
